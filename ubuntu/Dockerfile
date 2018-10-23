@@ -23,7 +23,7 @@ EXPOSE 9987/udp 10101 30303
 VOLUME ["/ts/logs", "/ts/certs", "/ts/files", "/ts/database"]
 
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/ts/libs/"
-ENC LD_PRELOAD "/ts/libs/libjemalloc.so.2"
+ENV LD_PRELOAD "/ts/libs/libjemalloc.so.2"
 
 ENTRYPOINT ["./TeaSpeakServer"]
 
