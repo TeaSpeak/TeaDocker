@@ -1,25 +1,31 @@
-FROM debian:jessie
+FROM debian:latest
 
-MAINTAINER Markus Hadenfeldt, docker@teaspeak.de
+MAINTAINER ESh4d0w, Markus Hadenfeldt, docker@teaspeak.de
 
-LABEL version="1.0"
+LABEL version="1.1"
 LABEL description="A simple TeaSpeak server running on debian (amd64)"
 
-RUN apt-get update; apt-get upgrade; apt-get -y install
-RUN apt-get install -y curl wget tar libnice10
-RUN 																		\
-	mkdir -p /opt/teaspeak;															\
-	cd /opt/teaspeak; 															\
-	LATEST_VERSION=$(curl -k https://repo.teaspeak.de/latest);										\
-	wget -O TeaSpeak.tar.gz https://repo.teaspeak.de/server/linux/amd64/TeaSpeak-${LATEST_VERSION}.tar.gz; 					\
-	tar xvf TeaSpeak.tar.gz; 														\
-	rm TeaSpeak.tar.gz;
+RUN	mkdir ts
+RUN	apt update && apt upgrade -y && apt --no-install-recommends -y install ca-certificates python libnice10 ffmpeg
+RUN	apt --no-install-recommends -y install wget curl &&\
+	cd /ts &&\
+	wget --no-check-certificate -O TeaSpeak.tar.gz https://repo.teaspeak.de/server/linux/amd64/TeaSpeak-$(curl -k https://repo.teaspeak.de/server/linux/amd64/latest).tar.gz &&\
+	tar -xzf TeaSpeak.tar.gz &&\
+	rm TeaSpeak.tar.gz && \
+	curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&\
+	chmod a+rx /usr/local/bin/youtube-dl &&\
+	apt purge -y wget curl &&\
+	rm -rf /var/lib/apt/lists/*
 
-ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/opt/teaspeak/libs/"
-ENV PATH "${PATH}:/opt/teaspeak"
+WORKDIR /ts
+
 EXPOSE 9987/udp 10101 30303
-WORKDIR /opt/teaspeak
 
-COPY ./entrypoint.sh /opt/teaspeak/
-ENTRYPOINT [ "entrypoint.sh" ]
-CMD [ "TeaSpeakServer" ]
+VOLUME ["/ts/logs", "/ts/certs", "/ts/files", "/ts/database"]
+
+ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/ts/libs/"
+ENV LD_PRELOAD "/ts/libs/libjemalloc.so.2"
+
+ENTRYPOINT ["./TeaSpeakServer"]
+
+CMD ["-Pgeneral.database_url=sqlite://database/TeaData.sqlite"]
