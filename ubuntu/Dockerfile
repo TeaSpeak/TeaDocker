@@ -1,9 +1,9 @@
-FROM debian:latest
+FROM ubuntu:latest
 
-MAINTAINER ESh4d0w, Markus Hadenfeldt, docker@teaspeak.de
+MAINTAINER ESh4d0w
 
-LABEL version="1.1"
-LABEL description="A simple TeaSpeak server running on debian (amd64)"
+LABEL version="1.0"
+LABEL description="A simple TeaSpeak server running on ubuntu (amd64)"
 
 RUN	mkdir ts
 RUN	apt update && apt upgrade -y && apt --no-install-recommends -y install ca-certificates python libnice10 ffmpeg
