@@ -28,4 +28,4 @@ ENV LD_PRELOAD "/ts/libs/libjemalloc.so.2"
 
 ENTRYPOINT ["./TeaSpeakServer"]
 
-CMD ["-Pgeneral.database_url=sqlite://database/TeaData.sqlite"]
+CMD ["-Pgeneral.database.url=sqlite://database/TeaData.sqlite"]
