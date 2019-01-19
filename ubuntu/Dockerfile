@@ -2,7 +2,9 @@ FROM ubuntu:latest
 
 MAINTAINER ESh4d0w
 
+
 LABEL version="1.1"
+
 LABEL description="A simple TeaSpeak server running on ubuntu (amd64)"
 
 RUN	mkdir ts
