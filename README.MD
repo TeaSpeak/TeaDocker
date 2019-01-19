@@ -11,7 +11,7 @@ docker run --rm -i teaspeak:debian
 ```
 Run with parameters:
 ```
-docker run --rm -i teaspeak:debian -Pgeneral.database_url=sqlite://database/TeaData.sqlite
+docker run --rm -i teaspeak:debian -Pgeneral.database.url=sqlite://database/TeaData.sqlite
 ``` 
 
 ### Ubuntu
@@ -25,5 +25,5 @@ docker run --rm -i teaspeak:ubuntu
 ```  
 Run with parameters:
 ```
-docker run --rm -i teaspeak:ubuntu -Pgeneral.database_url=sqlite://database/TeaData.sqlite
+docker run --rm -i teaspeak:ubuntu -Pgeneral.database.url=sqlite://database/TeaData.sqlite
 ```

@@ -2,7 +2,9 @@ FROM ubuntu:latest
 
 MAINTAINER ESh4d0w
 
-LABEL version="1.0"
+
+LABEL version="1.1"
+
 LABEL description="A simple TeaSpeak server running on ubuntu (amd64)"
 
 RUN	mkdir ts
@@ -28,4 +30,4 @@ ENV LD_PRELOAD "/ts/libs/libjemalloc.so.2"
 
 ENTRYPOINT ["./TeaSpeakServer"]
 
-CMD ["-Pgeneral.database_url=sqlite://database/TeaData.sqlite"]
+CMD ["-Pgeneral.database.url=sqlite://database/TeaData.sqlite"]
