@@ -110,7 +110,7 @@ function handle_failure() {
     echo "Error message: $@"
     if [[ ${build_verbose} -eq 0 ]] && [[ "$error" != "" ]]; then
         echo "Command log: (lookup \"${LOG_FILE}\" for detailed output!)"
-        echo "$error" | grep -E '^[^(/\S*/libstdc++.so\S*: no version information available)].*'
+        echo "$error" | grep -v 'libstdc++.so\S*: no version information available'
     fi
     echo "--------------------------- [ERROR] ---------------------------"
     exit 1
