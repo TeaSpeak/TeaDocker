@@ -19,7 +19,7 @@ RUN	apk update --no-cache && apk upgrade --no-cache \
 
 WORKDIR /ts
 
-EXPOSE 9987/udp 10101 30303
+EXPOSE 9987/udp 10101/tcp 30303
 
 VOLUME ["/ts/logs", "/ts/certs", "/ts/files", "/ts/database"]
 
