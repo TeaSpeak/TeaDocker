@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 LABEL varion="2.0" \
     maintainer="ESh4d0w, h1dden-da3m0n" \
-    description="A simple TeaSpeak server running on ubuntu 18.04 (amd64)"
+    description="A simple TeaSpeak server running on ubuntu 18.04 (amd64_stable)"
 
 ARG uid=4242
 ARG gid=4242
@@ -31,7 +31,7 @@ RUN	apt-get update && apt-get upgrade -qqy \
 
 WORKDIR /ts
 
-EXPOSE 9987 10101/tcp 30303
+EXPOSE 9987 10101/tcp 30303/tcp
 
 VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database"]
 

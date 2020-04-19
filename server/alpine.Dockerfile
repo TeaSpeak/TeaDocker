@@ -2,7 +2,7 @@ FROM frolvlad/alpine-glibc:latest
 
 LABEL varion="1.0" \
     maintainer="h1dden-da3m0n" \
-    description="A simple TeaSpeak server running on alpine-glibc (amd64)"
+    description="A simple TeaSpeak server running on alpine-glibc (amd64_stable)"
 
 ARG uid=4242
 ARG gid=4242
@@ -28,7 +28,7 @@ RUN	apk update --no-cache && apk upgrade --no-cache \
 
 WORKDIR /ts
 
-EXPOSE 9987 10101/tcp 30303
+EXPOSE 9987 10101/tcp 30303/tcp
 
 VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database"]
 

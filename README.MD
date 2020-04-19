@@ -19,7 +19,7 @@ docker run -d \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
-  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303 \
+  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-alpine
 ```
 
@@ -38,7 +38,7 @@ docker run -d \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
-  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303 \
+  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-debian
 ```
 
@@ -57,11 +57,12 @@ docker run -d \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
-  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303 \
+  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-ubuntu
 ```
 
 ## Run the server via docker-compose
+docker-compose.yml
 ```yaml
 version: '3.7'
 services:
@@ -72,7 +73,7 @@ services:
     ports:
       - "9987:9987"
       - "10101:10101/tcp"
-      - "30303:30303"
+      - "30303:30303/tcp"
     volumes:
       - type: volume
         source: teaspeak_certs
@@ -97,6 +98,11 @@ volumes:
   teaspeak_db:
   teaspeak_files:
   teaspeak_logs:
+```
+
+To run this please ensure you have docker-compose [installed](https://docs.docker.com/compose/install/).
+```shell script
+docker-compose up -d
 ```
 
 ## Logs and Token

@@ -2,7 +2,7 @@ FROM debian:10-slim
 
 LABEL varion="2.0" \
     maintainer="ESh4d0w, Markus Hadenfeldt, docker@teaspeak.de, h1dden-da3m0n" \
-    description="A simple TeaSpeak server running on debian 10 (amd64)"
+    description="A simple TeaSpeak server running on debian 10 (amd64_stable)"
 
 ARG uid=4242
 ARG gid=4242
@@ -31,7 +31,7 @@ RUN	apt-get update && apt-get upgrade -qqy \
 
 WORKDIR /ts
 
-EXPOSE 9987 10101/tcp 30303
+EXPOSE 9987 10101/tcp 30303/tcp
 
 VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database"]
 
