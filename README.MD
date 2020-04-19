@@ -114,6 +114,24 @@ docker logs teaspeak-server
 docker logs -f teaspeak-server
 ```
 
+## Env and Build-args
+
+| Variable | Default | Description |
+|:--------:|:-------:|:-----------:|
+|  **TZ**  | `Europe/Berlin` | Sets the timezone within the container. |
+
+The `TZ` variable works everywhere **EXCEPT** in the `alpine` based server image, where the log times are UTC.
+This seems to be a bug with the glib based Alpine Linux image.
+
+(their [Wiki](https://wiki.alpinelinux.org/wiki/Setting_the_timezone) explicitly states that glibc based installs define their timezones differently, yet fail to mention how to set it in that case :confused: :unamused:)
+
+| Build-Arg | Default | Description |
+|:---------:|:-------:|:-----------:|
+| **TEASPEAK_VERSION** | `1.4.12` | This build argument sets the server version to be installed in the resulting image |
+|  **uid**  | `4242`  | The default user id of the `teaspeak` user used in the container |
+|  **gid**  | `4242`  | The default group id of the `teaspeak` user used in the container |
+
+
 ## Web Image
 All references to build the TeaSpeak Web client in a Docker container
 
