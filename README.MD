@@ -18,7 +18,8 @@ docker run -d \
   -v teaspeak_db:/ts/database \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
-  -p 9987:9987/udp -p 10101:10101/tcp -p 30303:30303 \
+  -v teaspeak_config:/ts/config \
+  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303 \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-alpine
 ```
 
@@ -36,7 +37,8 @@ docker run -d \
   -v teaspeak_db:/ts/database \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
-  -p 9987:9987/udp -p 10101:10101/tcp -p 30303:30303 \
+  -v teaspeak_config:/ts/config \
+  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303 \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-debian
 ```
 
@@ -54,7 +56,8 @@ docker run -d \
   -v teaspeak_db:/ts/database \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
-  -p 9987:9987/udp -p 10101:10101/tcp -p 30303:30303 \
+  -v teaspeak_config:/ts/config \
+  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303 \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-ubuntu
 ```
 
