@@ -61,6 +61,44 @@ docker run -d \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-ubuntu
 ```
 
+## Run the server via docker-compose
+```yaml
+version: '3.7'
+services:
+  teaspeak-server:
+    image: teaspeak/server:latest
+    environment:
+      - TZ=Europe/Amsterdam
+    ports:
+      - "9987:9987"
+      - "10101:10101/tcp"
+      - "30303:30303"
+    volumes:
+      - type: volume
+        source: teaspeak_certs
+        target: /ts/certs
+      - type: volume
+        source: teaspeak_config
+        target: /ts/config
+      - type: volume
+        source: teaspeak_db
+        target: /ts/database
+      - type: volume
+        source: teaspeak_files
+        target: /ts/files
+      - type: volume
+        source: teaspeak_logs
+        target: /ts/logs
+    restart: unless-stopped
+
+volumes:
+  teaspeak_certs:
+  teaspeak_config:
+  teaspeak_db:
+  teaspeak_files:
+  teaspeak_logs:
+```
+
 ## Logs and Token
 To view the docker container logs and to find the server token you have to run the following command:
 ```shell script
