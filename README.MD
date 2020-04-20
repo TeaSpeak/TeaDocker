@@ -139,17 +139,3 @@ This seems to be a bug with the glib based Alpine Linux image.
 
 
 ## Web Image
-All references to build the TeaSpeak Web client in a Docker container
-
-### Web build docker
-Build the web docker
-```
-docker build --tag teaweb:build web/build/
-```
-
-Execute the build script and build the newest version
-```
-docker run --rm -v /tmp/build/logs/:/build/logs/ -v /tmp/build/packages/:/build/packages/ teaweb:build --enable-release --enable-debug
-```
-If the build succeed you should find the final packages within `/tmp/build/packages/`.  
-A complete build log could then be found here `/tmp/build/logs/`
