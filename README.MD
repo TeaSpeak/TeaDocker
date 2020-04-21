@@ -1,5 +1,5 @@
 # This is the official TeaSpeak docker repository
-This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Server Images and Web-Client Image
+This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Server Images as well as the Web-Client Image
 
 ## Server images
 Basic instructions to build and run the TeaSpeak server images yourself.
