@@ -7,11 +7,11 @@ gen_self_signed() {
     -keyout /etc/ssl/certs/tea.key \
     -out /etc/ssl/certs/tea_bundle.crt \
     -subj "/C=DE/ST=Berlin/L=Germany/O=TeaSpeak/OU=TeaWeb/CN=localhost/emailAddress=noreply@teaspeak.de"
+}
 
-  if [ ! -f /etc/ssl/certs/dhparam.pem ]; then
-    echo "[INF] No Diffie-Hellman pem found, generating new with 2048 byte"
-    openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-  fi
+gen_diffie_hellman() {
+  echo "[INF] No Diffie-Hellman pem found, generating new with 2048 byte"
+  openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 }
 
 if [ "$1" = "nginx" ]; then
@@ -20,6 +20,9 @@ if [ "$1" = "nginx" ]; then
   elif [ ! -f /etc/ssl/certs/tea.key ] || [ ! -f /etc/ssl/certs/tea_bundle.crt ]; then
     echo "[ERR] Only found a key or crt-bundle file but both files are REQUIRED!"
     exit 1
+  fi
+  if [ ! -f /etc/ssl/certs/dhparam.pem ]; then
+    gen_diffie_hellman
   fi
 fi
 

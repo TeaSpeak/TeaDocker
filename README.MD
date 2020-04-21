@@ -4,7 +4,7 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
 ## Server images
 Basic instructions to build and run the TeaSpeak server images yourself.
 
-### Alpine (~183MB, 13 Layers)
+#### Alpine (~183MB, 13 Layers)
 ```shell script
 # Build the Image with the server version 1.4.12 (default)
 docker build -f server/alpine.Dockerfile -t teaspeak/server:1.4.12-alpine .
@@ -23,7 +23,7 @@ docker run -d \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-alpine
 ```
 
-### Debian (~445MB, 11 Layers)
+#### Debian (~445MB, 11 Layers)
 ```shell script
 # Build the Image with the server version 1.4.12 (default)
 docker build -f server/debian.Dockerfile -t teaspeak/server:1.4.12-debian .
@@ -42,7 +42,7 @@ docker run -d \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-debian
 ```
 
-### Ubuntu (~437MB, 14 Layers)
+#### Ubuntu (~437MB, 14 Layers)
 ```shell script
 # Build the Image with the server version 1.4.12 (default)
 docker build -f server/ubuntu.Dockerfile -t teaspeak/server:1.4.12-ubuntu .
@@ -61,7 +61,7 @@ docker run -d \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-ubuntu
 ```
 
-## Run the server via docker-compose
+### Run the server via docker-compose
 docker-compose.yml
 ```yaml
 version: '3.7'
@@ -105,7 +105,7 @@ To run this please ensure you have docker-compose [installed](https://docs.docke
 docker-compose up -d
 ```
 
-## Logs and Token
+### Logs and Token
 To view the docker container logs and to find the server token you have to run the following command:
 ```shell script
 docker logs <container-name|container-id>
@@ -120,7 +120,7 @@ docker logs teaspeak-server
 docker logs -f teaspeak-server
 ```
 
-## Env and Build-args
+### Env and Build-args
 
 | Variable | Default | Description |
 |:--------:|:-------:|:-----------:|
@@ -139,3 +139,78 @@ This seems to be a bug with the glib based Alpine Linux image.
 
 
 ## Web Image
+
+Basic instructions to build and run the TeaWeb client images yourself.
+
+### Alpine (~41.3MB, 21 Layers)
+This image is based on the official Nginx Docker image (Alpine Linux flavour)
+```shell script
+# Build the Image with the web release version 9a23f96 (default)
+docker build -f web/Dockerfile -t teaspeak/web:9a23f96 .
+
+# alternatively with web version gitHash
+# docker build -f web/Dockerfile --build-arg WEB_VERSION=gitHash -t teaspeak/web:gitHash .
+
+# run the Ubuntu based server image
+docker run -d \
+  -p 80:80 -p 443:443 \
+  -v $(pwd)/certs:/etc/ssl/certs \
+  --restart=unless-stopped --name teaspeak-web teaspeak/web:9a23f96
+```
+
+### Files and Volumes
+
+This image will auto-generate a self-signed certificate at initial boot-up, 
+unless the user provides one during from the get-go.
+This happens because an https connection is ***required*** by the web client to function.
+Should the user decide to provide their own certificates at initial boot or later, 
+then the following aspects have to be kept in mind:
+
+* the certificate and key have to have a name in these formats:
+  * the crt file: `tea_bundle.crt`
+  * the key file: `tea.key`
+* optionally the user can also provide a Diffie–Hellman parameter, 
+otherwise the file will also be generated at initial boot
+  * the Diffie–Hellman param: `dhparam.pem`
+ 
+All auto-generated files will be persisted in the `/etc/ssl/certs`  folder within the container.
+This folder, if not mounted by the user, will be force mounted into an anonym volume on the host machine.
+By using the above `docker run` command, or the provided `docker-compose` script for the web client a bind-mounted
+folder shall be used to store the `.crt`, `.key` and `.pem` files.
+ 
+### Env and Build-args
+
+| Variable | Default | Description |
+|:--------:|:-------:|:-----------:|
+|  **TZ**  | `Europe/Berlin` | Sets the timezone within the container. |
+
+| Build-Arg | Default | Description |
+|:---------:|:-------:|:-----------:|
+| **TEASPEAK_VERSION** | `9a23f96` | This build argument sets the web client version to be installed in the resulting image |
+
+### Run the web client via docker-compose
+```yaml
+version: '3.7'
+services:
+  teaspeak-server:
+    image: teaspeak/web:latest
+    environment:
+      - TZ=Europe/Amsterdam
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - type: volume
+        source: ./certs
+        target: /etc/ssl/certs
+    restart: unless-stopped
+```
+
+### Ideas to improve the web client image
+
+*Note:* The list below is not sorted by any priority, nor are there concrete plans to realize the listed ideas.
+The following should not be misunderstood as planned features, but more ideas remaining from the image rework.
+
+* allow the user to change the cert- and key-file name via env
+* allow the user to use let's encrypt to provide certificates (**REQUIRES** user to have a valid TLD)
+* Have an idea not listed here? Open an [issue](https://github.com/TeaSpeak/TeaDocker/issues) and we shall discuss!
