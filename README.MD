@@ -1,6 +1,21 @@
 # This is the official TeaSpeak docker repository
 This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Server Images as well as the Web-Client Image
 
+## Table of Content
+1. [Server Images](#server-images)
+    1. [Build and Run - Alpine Flavoured](#alpine-183mb-13-layers)
+    2. [Build and Run - Debian Flavoured](#debian-445mb-11-layers)
+    3. [Build and Run - Ubuntu Flavoured](#ubuntu-437mb-14-layers)
+    6. [EnvVars and Build-Args](#envvars-and-build-args-server)
+    4. [Run the Server via `docker-compose`](#run-the-server-via-docker-compose)
+    5. [View the Logs and get the Token](#view-the-logs-and-token)
+2. [Web Image](#web-image)
+    1. [Build and Run - Alpine Flavoured](#alpine-413mb-21-layers)
+    2. [Files and Volumes](#files-and-volumes)
+    3. [EnvVars and Build-Args](#envvars-and-build-args-web)
+    4. [Host the WebClient via `docker-compose`](#host-the-web-client-via-docker-compose)
+    5. [Ideas for the Future](#ideas-to-improve-the-web-client-image)
+
 ## Server images
 Basic instructions to build and run the TeaSpeak server images yourself.
 
@@ -24,6 +39,9 @@ docker run -d \
 ```
 
 #### Debian (~445MB, 11 Layers)
+<details>
+    <summary>Build and Run Debian</summary>
+  
 ```shell script
 # Build the Image with the server version 1.4.12 (default)
 docker build -f server/debian.Dockerfile -t teaspeak/server:1.4.12-debian .
@@ -41,8 +59,12 @@ docker run -d \
   -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-debian
 ```
+</details>
 
 #### Ubuntu (~437MB, 14 Layers)
+<details>
+    <summary>Build and Run Debian</summary>
+    
 ```shell script
 # Build the Image with the server version 1.4.12 (default)
 docker build -f server/ubuntu.Dockerfile -t teaspeak/server:1.4.12-ubuntu .
@@ -60,9 +82,29 @@ docker run -d \
   -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-ubuntu
 ```
+</details>
+
+### EnvVars and Build-args (server)
+
+| Variable | Default | Description |
+|:--------:|:-------:|:-----------:|
+|  **TZ**  | `Europe/Berlin` | Sets the timezone within the container. |
+
+The `TZ` variable works everywhere **EXCEPT** in the `alpine` based server image, where the log times are UTC.
+This seems to be a bug with the glib based Alpine Linux image.
+
+(their [Wiki](https://wiki.alpinelinux.org/wiki/Setting_the_timezone) explicitly states that glibc based installs define their timezones differently, yet fail to mention how to set it in that case :confused: :unamused:)
+
+| Build-Arg | Default | Description |
+|:---------:|:-------:|:-----------:|
+| **TEASPEAK_VERSION** | `1.4.12` | This build argument sets the server version to be installed in the resulting image |
+|  **uid**  | `4242`  | The default user id of the `teaspeak` user used in the container |
+|  **gid**  | `4242`  | The default group id of the `teaspeak` user used in the container |
 
 ### Run the server via docker-compose
-docker-compose.yml
+<details>
+    <summary>docker-compose.yml</summary>
+    
 ```yaml
 version: '3.7'
 services:
@@ -99,13 +141,14 @@ volumes:
   teaspeak_files:
   teaspeak_logs:
 ```
+</details>
 
 To run this please ensure you have docker-compose [installed](https://docs.docker.com/compose/install/).
 ```shell script
 docker-compose up -d
 ```
 
-### Logs and Token
+### View the Logs and Token
 To view the docker container logs and to find the server token you have to run the following command:
 ```shell script
 docker logs <container-name|container-id>
@@ -120,42 +163,25 @@ docker logs teaspeak-server
 docker logs -f teaspeak-server
 ```
 
-### Env and Build-args
-
-| Variable | Default | Description |
-|:--------:|:-------:|:-----------:|
-|  **TZ**  | `Europe/Berlin` | Sets the timezone within the container. |
-
-The `TZ` variable works everywhere **EXCEPT** in the `alpine` based server image, where the log times are UTC.
-This seems to be a bug with the glib based Alpine Linux image.
-
-(their [Wiki](https://wiki.alpinelinux.org/wiki/Setting_the_timezone) explicitly states that glibc based installs define their timezones differently, yet fail to mention how to set it in that case :confused: :unamused:)
-
-| Build-Arg | Default | Description |
-|:---------:|:-------:|:-----------:|
-| **TEASPEAK_VERSION** | `1.4.12` | This build argument sets the server version to be installed in the resulting image |
-|  **uid**  | `4242`  | The default user id of the `teaspeak` user used in the container |
-|  **gid**  | `4242`  | The default group id of the `teaspeak` user used in the container |
-
 
 ## Web Image
 
-Basic instructions to build and run the TeaWeb client images yourself.
+Basic instructions to build and host the TeaWeb client images yourself.
 
 ### Alpine (~41.3MB, 21 Layers)
 This image is based on the official Nginx Docker image (Alpine Linux flavour)
 ```shell script
-# Build the Image with the web release version 9a23f96 (default)
-docker build -f web/Dockerfile -t teaspeak/web:9a23f96 .
+# Build the image with the latest web release
+docker build -f web/Dockerfile -t teaspeak/web:latest ./web
 
-# alternatively with web version gitHash
-# docker build -f web/Dockerfile --build-arg WEB_VERSION=gitHash -t teaspeak/web:gitHash .
+# alternatively with a specific web version <gitHash>
+# docker build -f web/Dockerfile --build-arg WEB_VERSION=<gitHash> -t teaspeak/web:<gitHash> ./web
 
 # run the Ubuntu based server image
 docker run -d \
   -p 80:80 -p 443:443 \
   -v $(pwd)/certs:/etc/ssl/certs \
-  --restart=unless-stopped --name teaspeak-web teaspeak/web:9a23f96
+  --restart=on-failure:3 --name teaspeak-web teaspeak/web:latest
 ```
 
 ### Files and Volumes
@@ -177,8 +203,8 @@ All auto-generated files will be persisted in the `/etc/ssl/certs`  folder withi
 This folder, if not mounted by the user, will be force mounted into an anonym volume on the host machine.
 By using the above `docker run` command, or the provided `docker-compose` script for the web client a bind-mounted
 folder shall be used to store the `.crt`, `.key` and `.pem` files.
- 
-### Env and Build-args
+
+### EnvVars and Build-args (web)
 
 | Variable | Default | Description |
 |:--------:|:-------:|:-----------:|
@@ -188,7 +214,10 @@ folder shall be used to store the `.crt`, `.key` and `.pem` files.
 |:---------:|:-------:|:-----------:|
 | **TEASPEAK_VERSION** | `9a23f96` | This build argument sets the web client version to be installed in the resulting image |
 
-### Run the web client via docker-compose
+### Host the web client via docker-compose
+<details>
+    <summary>docker-compose.yml</summary>
+
 ```yaml
 version: '3.7'
 services:
@@ -200,10 +229,16 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - type: volume
+      - type: bind
         source: ./certs
         target: /etc/ssl/certs
-    restart: unless-stopped
+    restart: on-failure:3
+```
+</details>
+
+To run this please ensure you have docker-compose [installed](https://docs.docker.com/compose/install/).
+```shell script
+docker-compose up -d
 ```
 
 ### Ideas to improve the web client image
