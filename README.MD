@@ -3,9 +3,9 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
 
 ## Table of Content
 1. [Server Images](#server-images)
-    1. [Build and Run - Alpine Flavoured](#alpine-183mb-13-layers)
-    2. [Build and Run - Debian Flavoured](#debian-445mb-11-layers)
-    3. [Build and Run - Ubuntu Flavoured](#ubuntu-437mb-14-layers)
+    1. [Build and Run - Alpine Flavoured](#alpine-179mb-16-layers)
+    2. [Build and Run - Debian Flavoured](#debian-427mb-14-layers)
+    3. [Build and Run - Ubuntu Flavoured](#ubuntu-431mb-17-layers)
     6. [EnvVars and Build-Args](#envvars-and-build-args-server)
     4. [Run the Server via `docker-compose`](#run-the-server-via-docker-compose)
     5. [View the Logs and get the Token](#view-the-logs-and-token)
@@ -19,13 +19,13 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
 ## Server images
 Basic instructions to build and run the TeaSpeak server images yourself.
 
-#### Alpine (~183MB, 13 Layers)
+#### Alpine (~179MB, 16 Layers)
 ```shell script
-# Build the Image with the server version 1.4.12 (default)
-docker build -f server/alpine.Dockerfile -t teaspeak/server:1.4.12-alpine .
+# Build the Image with the latest server
+docker build -f server/alpine.Dockerfile -t teaspeak/server:latest-alpine ./server
 
-# alternatively with server version x.y.z
-# docker build -f server/alpine.Dockerfile --build-arg TEASPEAK_VERSION=x.y.z -t teaspeak/server:x.y.z-alpine .
+# alternatively with server version <x.y.z>
+# docker build -f server/alpine.Dockerfile --build-arg SERVER_VERSION=<x.y.z> -t teaspeak/server:<x.y.z>-alpine ./server
 
 # run the Alpine based server image
 docker run -d \
@@ -34,20 +34,21 @@ docker run -d \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
+  -v teaspeak_crash_dumps:/ts/crash_dumps \
   -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
-  --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-alpine
+  --restart=unless-stopped --name teaspeak-server teaspeak/server:latest-alpine
 ```
 
-#### Debian (~445MB, 11 Layers)
+#### Debian (~427MB, 14 Layers)
 <details>
     <summary>Build and Run Debian</summary>
   
 ```shell script
-# Build the Image with the server version 1.4.12 (default)
-docker build -f server/debian.Dockerfile -t teaspeak/server:1.4.12-debian .
+# Build the Image with the latest server
+docker build -f server/debian.Dockerfile -t teaspeak/server:latest-debian ./server
 
-# alternatively with server version x.y.z
-# docker build -f server/debian.Dockerfile --build-arg TEASPEAK_VERSION=x.y.z -t teaspeak/server:x.y.z-debian .
+# alternatively with server version <x.y.z>
+# docker build -f server/debian.Dockerfile --build-arg SERVER_VERSION=<x.y.z> -t teaspeak/server:<x.y.z>-debian ./server
 
 # run the Debian based server image
 docker run -d \
@@ -56,21 +57,22 @@ docker run -d \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
+  -v teaspeak_crash_dumps:/ts/crash_dumps \
   -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
-  --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-debian
+  --restart=unless-stopped --name teaspeak-server teaspeak/server:latest-debian
 ```
 </details>
 
-#### Ubuntu (~437MB, 14 Layers)
+#### Ubuntu (~431MB, 17 Layers)
 <details>
     <summary>Build and Run Debian</summary>
     
 ```shell script
-# Build the Image with the server version 1.4.12 (default)
-docker build -f server/ubuntu.Dockerfile -t teaspeak/server:1.4.12-ubuntu .
+# Build the Image with the latest server
+docker build -f server/ubuntu.Dockerfile -t teaspeak/server:latest-ubuntu ./server
 
-# alternatively with server version x.y.z
-# docker build -f server/ubuntu.Dockerfile --build-arg TEASPEAK_VERSION=x.y.z -t teaspeak/server:x.y.z-ubuntu .
+# alternatively with server version <x.y.z>
+# docker build -f server/ubuntu.Dockerfile --build-arg SERVER_VERSION=<x.y.z> -t teaspeak/server:<x.y.z>-ubuntu ./server
 
 # run the Ubuntu based server image
 docker run -d \
@@ -79,8 +81,9 @@ docker run -d \
   -v teaspeak_files:/ts/files \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
+  -v teaspeak_crash_dumps:/ts/crash_dumps \
   -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
-  --restart=unless-stopped --name teaspeak-server teaspeak/server:1.4.12-ubuntu
+  --restart=unless-stopped --name teaspeak-server teaspeak/server:latest-ubuntu
 ```
 </details>
 
@@ -132,10 +135,14 @@ services:
       - type: volume
         source: teaspeak_logs
         target: /ts/logs
+      - type: volume
+        source: teaspeak_crash_dumps
+        target: /ts/crash_dumps
     restart: unless-stopped
 
 volumes:
   teaspeak_certs:
+  teaspeak_crash_dumps:
   teaspeak_config:
   teaspeak_db:
   teaspeak_files:

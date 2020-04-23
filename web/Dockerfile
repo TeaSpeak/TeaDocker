@@ -1,7 +1,7 @@
 FROM nginx:alpine
 
 LABEL varion="1.0" \
-    maintainer="h1dden-da3m0n" \
+    maintainer="Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak WebClinet running on Nginx-Alpine"
 
 ARG WEB_VERSION
@@ -14,9 +14,9 @@ RUN apk update --no-cache && apk upgrade --no-cache \
     && apk add --no-cache openssl tzdata curl jq \
     \
     && mkdir -p /var/www/TeaWeb /etc/ssl/certs \
-    && VERSION=${WEB_VERSION:-$(curl -s https://api.github.com/repos/TeaSpeak/TeaWeb/releases/latest | jq -r '.tag_name')} \
+    && WEB_VERSION=${WEB_VERSION:-$(curl -s https://api.github.com/repos/TeaSpeak/TeaWeb/releases/latest | jq -r '.tag_name')} \
     && wget -q -O /var/www/TeaWeb/TeaWeb-release.zip \
-        https://github.com/TeaSpeak/TeaWeb/releases/download/${VERSION}/TeaWeb-release.zip \
+        https://github.com/TeaSpeak/TeaWeb/releases/download/${WEB_VERSION}/TeaWeb-release.zip \
     && unzip -oq /var/www/TeaWeb/TeaWeb-release.zip -d /var/www/TeaWeb \
     && rm /var/www/TeaWeb/TeaWeb-release.zip \
     && sed -i /etc/nginx/mime.types -e 's/}/    application\/wasm    wasm;\n}/' \
@@ -24,7 +24,7 @@ RUN apk update --no-cache && apk upgrade --no-cache \
     \
     && apk del --no-cache curl jq
 
-ENV WEB_VERSION="${VERSION}" \
+ENV WEB_VERSION="${WEB_VERSION}" \
     TZ="Europe/Berlin"
 
 VOLUME ["/etc/ssl/certs"]

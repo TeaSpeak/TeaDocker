@@ -1,19 +1,21 @@
 FROM frolvlad/alpine-glibc:latest
 
 LABEL varion="1.0" \
-    maintainer="h1dden-da3m0n" \
+    maintainer="Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak server running on alpine-glibc (amd64_stable)"
 
 ARG uid=4242
 ARG gid=4242
-ARG TEASPEAK_VERSION="1.4.12"
+ARG SERVER_VERSION
 
 RUN	apk update --no-cache && apk upgrade --no-cache \
     && apk add --no-cache \
-        ca-certificates wget python ffmpeg tzdata \
+        ca-certificates curl python ffmpeg tzdata \
     \
-    && mkdir /ts /ts/logs /ts/certs /ts/files /ts/database /ts/config \
-    && wget -nv -O /ts/TeaSpeak.tar.gz https://repo.teaspeak.de/server/linux/amd64_stable/TeaSpeak-$TEASPEAK_VERSION.tar.gz \
+    && mkdir -p /ts /ts/logs /ts/certs /ts/files /ts/database /ts/config /ts/crash_dumps \
+    && SERVER_VERSION=${SERVER_VERSION:-$(curl -s https://repo.teaspeak.de/server/linux/amd64_stable/latest)} \
+    && wget -nv -O /ts/TeaSpeak.tar.gz \
+        https://repo.teaspeak.de/server/linux/amd64_stable/TeaSpeak-$SERVER_VERSION.tar.gz \
     && tar -xzf /ts/TeaSpeak.tar.gz -C /ts \
     && rm /ts/TeaSpeak.tar.gz \
     && echo "" > /ts/config/config.yml && ln -sf /ts/config/config.yml /ts/config.yml \
@@ -24,16 +26,16 @@ RUN	apk update --no-cache && apk upgrade --no-cache \
     && adduser -H -u ${uid} -G teaspeak -D teaspeak \
     && chown -R ${uid}:${gid} /ts \
     \
-    && apk del wget
+    && apk del curl
 
 WORKDIR /ts
 
 EXPOSE 9987 10101/tcp 30303/tcp
 
-VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database"]
+VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database", "/ts/crash_dumps"]
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/ts/libs/" \
-    TEASPEAK_VERSION="${TEASPEAK_VERSION}" \
+    SERVER_VERSION="${SERVER_VERSION}" \
     TZ="Europe/Berlin"
 
 USER teaspeak
