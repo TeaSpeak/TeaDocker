@@ -35,7 +35,7 @@ docker run -d \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
   -v teaspeak_crash_dumps:/ts/crash_dumps \
-  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
+  -p 9987:9987/tcp -p 9987:9987/udp -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:latest-alpine
 ```
 
@@ -58,7 +58,7 @@ docker run -d \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
   -v teaspeak_crash_dumps:/ts/crash_dumps \
-  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
+  -p 9987:9987/tcp -p 9987:9987/udp -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:latest-debian
 ```
 </details>
@@ -82,7 +82,7 @@ docker run -d \
   -v teaspeak_certs:/ts/certs \
   -v teaspeak_config:/ts/config \
   -v teaspeak_crash_dumps:/ts/crash_dumps \
-  -p 9987:9987 -p 10101:10101/tcp -p 30303:30303/tcp \
+  -p 9987:9987/tcp -p 9987:9987/udp -p 10101:10101/tcp -p 30303:30303/tcp \
   --restart=unless-stopped --name teaspeak-server teaspeak/server:latest-ubuntu
 ```
 </details>
