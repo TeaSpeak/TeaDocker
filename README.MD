@@ -14,7 +14,9 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
     2. [Files and Volumes](#files-and-volumes)
     3. [EnvVars and Build-Args](#envvars-and-build-args-web)
     4. [Host the WebClient via `docker-compose`](#host-the-web-client-via-docker-compose)
-    5. [Ideas for the Future](#ideas-to-improve-the-web-client-image)
+3. [Ideas for future improvements](#ideas-for-future-improvements)
+    1. [Server Ideas](#server-ideas)
+    2. [WebClient Ideas](#webclient-ideas)
 
 ## Server images
 Basic instructions to build and run the TeaSpeak server images yourself.
@@ -90,7 +92,7 @@ docker run -d \
 ### EnvVars and Build-args (server)
 
 | Variable | Default | Description |
-|:--------:|:-------:|:-----------:|
+|:--------:|:-------:|:----------- |
 |  **TZ**  | `Europe/Berlin` | Sets the timezone within the container. |
 
 The `TZ` variable works everywhere **EXCEPT** in the `alpine` based server image, where the log times are UTC.
@@ -99,8 +101,8 @@ This seems to be a bug with the glib based Alpine Linux image.
 (their [Wiki](https://wiki.alpinelinux.org/wiki/Setting_the_timezone) explicitly states that glibc based installs define their timezones differently, yet fail to mention how to set it in that case :confused: :unamused:)
 
 | Build-Arg | Default | Description |
-|:---------:|:-------:|:-----------:|
-| **TEASPEAK_VERSION** | `1.4.12` | This build argument sets the server version to be installed in the resulting image |
+|:---------:|:-------:|:----------- |
+| **SERVER_VERSION** | *blank* | This build argument sets the server version to be installed in the resulting image. If its left *blank* the latest released server verison will be installed. |
 |  **uid**  | `4242`  | The default user id of the `teaspeak` user used in the container |
 |  **gid**  | `4242`  | The default group id of the `teaspeak` user used in the container |
 
@@ -214,13 +216,12 @@ folder shall be used to store the `.crt`, `.key` and `.pem` files.
 ### EnvVars and Build-args (web)
 
 | Variable | Default | Description |
-|:--------:|:-------:|:-----------:|
+|:--------:|:-------:|:----------- |
 |  **TZ**  | `Europe/Berlin` | Sets the timezone within the container. |
 
 | Build-Arg | Default | Description |
-|:---------:|:-------:|:-----------:|
-| **TEASPEAK_VERSION** | `9a23f96` | This build argument sets the web client version to be installed in the resulting image |
-
+|:---------:|:-------:|:----------- |
+| **WEB_VERSION** | *blank* | This build argument sets the web client version to be installed in the resulting image. If its left *blank* the latest released client version will be installed |
 ### Host the web client via docker-compose
 <details>
     <summary>docker-compose.yml</summary>
@@ -248,11 +249,16 @@ To run this please ensure you have docker-compose [installed](https://docs.docke
 docker-compose up -d
 ```
 
-### Ideas to improve the web client image
+## Ideas for Future Improvements
 
 *Note:* The list below is not sorted by any priority, nor are there concrete plans to realize the listed ideas.
 The following should not be misunderstood as planned features, but more ideas remaining from the image rework.
 
+### Server Ideas
+* use single volume mount point to decrease CLI clutter (requires the server to handle symlinks better)
+
+### WebClient Ideas
 * allow the user to change the cert- and key-file name via env
 * allow the user to use let's encrypt to provide certificates (**REQUIRES** user to have a valid TLD)
-* Have an idea not listed here? Open an [issue](https://github.com/TeaSpeak/TeaDocker/issues) and we shall discuss!
+ 
+Have an idea not listed here? Open an [issue](https://github.com/TeaSpeak/TeaDocker/issues) and we shall discuss!

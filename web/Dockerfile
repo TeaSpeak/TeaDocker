@@ -2,7 +2,7 @@ FROM nginx:alpine
 
 LABEL varion="1.0" \
     maintainer="Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
-    description="A simple TeaSpeak WebClinet running on Nginx-Alpine"
+    description="A simple TeaSpeak WebClient running on Nginx-Alpine"
 
 ARG WEB_VERSION
 
