@@ -14,7 +14,8 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
     2. [Files and Volumes](#files-and-volumes)
     3. [EnvVars and Build-Args](#envvars-and-build-args-web)
     4. [Host the WebClient via `docker-compose`](#host-the-web-client-via-docker-compose)
-3. [Ideas for future improvements](#ideas-for-future-improvements)
+3. [Updating](#updating)
+4. [Ideas for future improvements](#ideas-for-future-improvements)
     1. [Server Ideas](#server-ideas)
     2. [WebClient Ideas](#webclient-ideas)
 
@@ -172,7 +173,6 @@ docker logs teaspeak-server
 docker logs -f teaspeak-server
 ```
 
-
 ## Web Image
 
 Basic instructions to build and host the TeaWeb client images yourself.
@@ -229,7 +229,7 @@ folder shall be used to store the `.crt`, `.key` and `.pem` files.
 ```yaml
 version: '3.7'
 services:
-  teaspeak-server:
+  teaspeak-web:
     image: teaspeak/web:latest
     environment:
       - TZ=Europe/Amsterdam
@@ -248,6 +248,33 @@ To run this please ensure you have docker-compose [installed](https://docs.docke
 ```shell script
 docker-compose up -d
 ```
+
+## Updating
+
+If you never updated a container bases application before you can follow these simplified workflows:
+
+### For `docker run` started Server/WebClients
+
+1. Notify the user base of the application about an upcoming update maintenance 
+(best to specify a specific date/time and choose a relatively quiet timeslot)
+2. Before the maintenance starts download the image version you want to update to, 
+for this example we assume an upgrade from old `latest` to new `latest`, 
+by issuing a `docker pull teaspeak/<app>:latest` command.
+3. Give one last heads up to the users that may be still using the application and then issue a 
+`docker stop teaspeak-<app>` to shut down the application, then issue a `docker rm teaspeak-<app>` command
+to remove the old version container.
+4. As soon as the commands of step `3.` return successfully you can restart the application with the new 
+image versions by running the corresponding run commands found in the [Server](#server-images) or [Web](#web-image) sections.
+
+### For `docker-compose` started Server/WebClients
+
+1. Notify the user base of the application about an upcoming update maintenance 
+(best to specify a specific date/time and choose a relatively quiet timeslot)
+2. If you are using a specific `tag` for the app images in your compose `yaml` files change it to the tag you want to update to.
+Then use `docker-compose pull` to pull the latest version of your desired image specified in the `docker-compose.yml`.
+3. Give one last heads up to the users that may be still using the application and then issue the following two commands:
+`docker-compose down` and `docker-compose up -d`
+4. As soon as the commands of step `3.` return successfully you can start reconnecting to the applications.
 
 ## Ideas for Future Improvements
 
