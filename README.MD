@@ -15,6 +15,9 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
     3. [EnvVars and Build-Args](#envvars-and-build-args-web)
     4. [Host the WebClient via `docker-compose`](#host-the-web-client-via-docker-compose)
 3. [Updating](#updating)
+    1. [Updating with `docker run`](#for-docker-run-started-serverwebclients)
+    2. [Updating with `docker-compose`](#for-docker-compose-started-serverwebclients)
+    3. [Cleanup `docker` Images](#cleanup)
 4. [Ideas for future improvements](#ideas-for-future-improvements)
     1. [Server Ideas](#server-ideas)
     2. [WebClient Ideas](#webclient-ideas)
@@ -258,10 +261,11 @@ If you never updated a container bases application before you can follow these s
 1. Notify the user base of the application about an upcoming update maintenance 
 (best to specify a specific date/time and choose a relatively quiet timeslot)
 2. Before the maintenance starts download the image version you want to update to, 
-for this example we assume an upgrade from old `latest` to new `latest`, 
-by issuing a `docker pull teaspeak/<app>:latest` command.
-3. Give one last heads up to the users that may be still using the application and then issue a 
-`docker stop teaspeak-<app>` to shut down the application, then issue a `docker rm teaspeak-<app>` command
+for this example we assume an upgrade from previous `latest` to new `latest`, 
+by issuing a `docker pull teaspeak/[server|web]:latest` command. 
+(*NOTE:* this will clone the new version of the image locally, so it can be used once you restart to update)
+3. Give one last heads up to the users that may be still using the application and then run 
+`docker stop teaspeak-[server|web]` to shut down the application, after that run `docker rm teaspeak-[server|web]`
 to remove the old version container.
 4. As soon as the commands of step `3.` return successfully you can restart the application with the new 
 image versions by running the corresponding run commands found in the [Server](#server-images) or [Web](#web-image) sections.
@@ -272,9 +276,17 @@ image versions by running the corresponding run commands found in the [Server](#
 (best to specify a specific date/time and choose a relatively quiet timeslot)
 2. If you are using a specific `tag` for the app images in your compose `yaml` files change it to the tag you want to update to.
 Then use `docker-compose pull` to pull the latest version of your desired image specified in the `docker-compose.yml`.
+(*NOTE:* this will clone the new version of the image locally, so it can be used once you restart to update)
 3. Give one last heads up to the users that may be still using the application and then issue the following two commands:
 `docker-compose down` and `docker-compose up -d`
 4. As soon as the commands of step `3.` return successfully you can start reconnecting to the applications.
+
+### Cleanup
+
+To clean up old unused images you can either delete them manually by
+* first listing them with `docker images`, finding the no longer used images and the running `docker rmi <image-name...>`
+* or by running `docker image prune`, yet be careful with this command, 
+as it will delete **ALL** images not used by any container and could yield unwanted results therefor
 
 ## Ideas for Future Improvements
 
