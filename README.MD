@@ -123,7 +123,8 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     ports:
-      - "9987:9987"
+      - "9987:9987/udp"
+      - "9987:9987/tcp"
       - "10101:10101/tcp"
       - "30303:30303/tcp"
     volumes:

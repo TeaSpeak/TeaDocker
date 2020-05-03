@@ -49,7 +49,7 @@ $ docker logs teaspeak-server
 Please write both, the server query password and server admin privilege key, down.
 These are needed to administrate the TeaSpeak server and should not get lost!
 
-Finally, you can now connect to `localhost` in your TeaSpeak client.
+Finally, you can now connect to `localhost` in your TeaSpeak client or TeaSpeak Web-client.
 
 ## Container shell access
 
@@ -79,7 +79,8 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     ports:
-      - "9987:9987"
+      - "9987:9987/udp"
+      - "9987:9987/tcp"
       - "10101:10101/tcp"
       - "30303:30303/tcp"
     volumes:
