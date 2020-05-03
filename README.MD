@@ -9,6 +9,7 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
     6. [EnvVars and Build-Args](#envvars-and-build-args-server)
     4. [Run the Server via `docker-compose`](#run-the-server-via-docker-compose)
     5. [View the Logs and get the Token](#view-the-logs-and-token)
+    6. [Where to store data](#where-to-store-data)
 2. [Web Image](#web-image)
     1. [Build and Run - Alpine Flavoured](#alpine-413mb-21-layers)
     2. [Files and Volumes](#files-and-volumes)
@@ -175,6 +176,20 @@ docker logs teaspeak-server
 # and if you want to follow the logs (ctrl+c to stop following)
 docker logs -f teaspeak-server
 ```
+
+### Where to Store Data
+
+Important note: There are several ways to store data used by applications that run in Docker containers.
+We encourage users of the `teaspeak` images to familiarize themselves with the options available, including:
+
+- Let Docker manage the storage of your database data [by writing the database files to disk on the host system using its own internal volume management](https://docs.docker.com/engine/tutorials/dockervolumes/#adding-a-data-volume).
+This is the default and is easy and fairly transparent to the user. 
+The downside is that the files may be hard to locate for tools and applications that run directly on the host system, i.e. outside containers.
+- Create a data directory on the host system (outside the container) and [mount this to a directory visible from inside the container](https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume). 
+This places the database files in a known location on the host system, and makes it easy for tools and applications on the host system to access the files. 
+The downside is that the user needs to make sure that the directory exists, and that e.g. directory permissions and other security mechanisms on the host system are set up correctly.
+
+The Docker documentation is a good starting point for understanding the different storage options and variations, and there are multiple blogs and forum postings that discuss and give advice in this area.
 
 ## Web Image
 
