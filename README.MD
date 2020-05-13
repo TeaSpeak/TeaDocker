@@ -194,15 +194,16 @@ The Docker documentation is a good starting point for understanding the differen
 
 ## Web Image
 
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/teaspeak/web?style=for-the-badge)
-![Docker Pulls](https://img.shields.io/docker/pulls/teaspeak/web?style=for-the-badge)
+[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/teaspeak/web?style=for-the-badge)](https://hub.docker.com/r/teaspeak/web)
+[![Docker Pulls](https://img.shields.io/docker/pulls/teaspeak/web?style=for-the-badge)](https://hub.docker.com/r/teaspeak/web)
+[![Official Image](https://img.shields.io/badge/Dockerhub-official-blue?style=for-the-badge)](https://hub.docker.com/r/teaspeak/web)
 
 Basic instructions to build and host the TeaWeb client images yourself.
 
 ### Alpine 
 
-![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/teaspeak/web?style=for-the-badge)
-![MicroBadger Layers](https://img.shields.io/microbadger/layers/teaspeak/web?style=for-the-badge)
+[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/teaspeak/web?style=for-the-badge)](https://microbadger.com/images/teaspeak/web)
+[![MicroBadger Layers](https://img.shields.io/microbadger/layers/teaspeak/web?style=for-the-badge)](https://microbadger.com/images/teaspeak/web)
 
 This image is based on the official Nginx Docker image (Alpine Linux flavour)
 ```shell script
