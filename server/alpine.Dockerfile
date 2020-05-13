@@ -1,6 +1,6 @@
 FROM frolvlad/alpine-glibc:latest
 
-LABEL varion="1.0" \
+LABEL version="1.0" \
     maintainer="Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak server running on alpine-glibc (amd64_stable)"
 

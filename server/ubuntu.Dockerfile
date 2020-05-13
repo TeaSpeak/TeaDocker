@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL varion="2.0" \
+LABEL version="2.0" \
     maintainer="ESh4d0w, Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak server running on ubuntu 18.04 (amd64_stable)"
 
