@@ -24,7 +24,7 @@ RUN apk update --no-cache && apk upgrade --no-cache \
     \
     && apk del --no-cache curl jq
 
-ENV WEB_VERSION="${WEB_VERSION}" \
+ENV WEB_VERSION="${WEB_VERSION:-latest-$(date +%d%m%y)}" \
     TZ="Europe/Berlin"
 
 VOLUME ["/etc/ssl/certs"]

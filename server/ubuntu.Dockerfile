@@ -39,7 +39,7 @@ VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database", "/ts
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/ts/libs/" \
     LD_PRELOAD="/ts/libs/libjemalloc.so.2" \
-    SERVER_VERSION="${SERVER_VERSION}" \
+    SERVER_VERSION="${SERVER_VERSION:-latest-$(date +%d%m%y)}" \
     TZ="Europe/Berlin"
 
 USER teaspeak
