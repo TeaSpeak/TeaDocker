@@ -1,8 +1,8 @@
 # Supported tags and respective `Dockerfile` links
 
-- [`1.4-alpine`, `1.4.12-alpine`, `alpine`, `1.4`, `1.4.12`, `stable`](https://github.com/TeaSpeak/TeaDocker/blob/master/server/alpine.Dockerfile)
-- [`1.4-debian`, `1.4.12-debian`, `debian`](https://github.com/TeaSpeak/TeaDocker/blob/master/server/debian.Dockerfile)
-- [`1.4-ubuntu`, `1.4.12-ubuntu`, `ubuntu`](https://github.com/TeaSpeak/TeaDocker/blob/master/server/ubuntu.Dockerfile)
+- [`1.4-alpine`, `1.4.14-alpine`, `alpine`, `1.4`, `1.4.14`, `stable`](https://github.com/TeaSpeak/TeaDocker/blob/master/server/alpine.Dockerfile)
+- [`1.4-debian`, `1.4.14-debian`, `debian`](https://github.com/TeaSpeak/TeaDocker/blob/master/server/debian.Dockerfile)
+- [`1.4-ubuntu`, `1.4.14-ubuntu`, `ubuntu`](https://github.com/TeaSpeak/TeaDocker/blob/master/server/ubuntu.Dockerfile)
 
 # Quick reference
 
