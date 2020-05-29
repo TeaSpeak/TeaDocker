@@ -194,7 +194,8 @@ The Docker documentation is a good starting point for understanding the differen
 
 ## Web Image
 
-[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/teaspeak/web?style=for-the-badge)](https://github.com/TeaSpeak/TeaWeb/releases)
+[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/teaspeak/web/latest?label=Release&style=for-the-badge)](https://github.com/TeaSpeak/TeaWeb/releases)
+[![Docker Image Version (tag latest beta semver)](https://img.shields.io/docker/v/teaspeak/web/beta?label=Development&color=orange&style=for-the-badge)](https://github.com/TeaSpeak/TeaWeb/releases)
 [![Docker Pulls](https://img.shields.io/docker/pulls/teaspeak/web?style=for-the-badge)](https://hub.docker.com/r/teaspeak/web)
 [![Official Image](https://img.shields.io/badge/Dockerhub-official-blue?style=for-the-badge)](https://hub.docker.com/r/teaspeak/web)
 
