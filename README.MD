@@ -203,7 +203,7 @@ Basic instructions to build and host the TeaWeb client images yourself.
 
 ### Web Alpine Flavour 
 
-[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/teaspeak/web?style=for-the-badge)](https://microbadger.com/images/teaspeak/web)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/teaspeak/web/latest?style=for-the-badge)](https://microbadger.com/images/teaspeak/web)
 [![MicroBadger Layers](https://img.shields.io/microbadger/layers/teaspeak/web?style=for-the-badge)](https://microbadger.com/images/teaspeak/web)
 
 This image is based on the official Nginx Docker image (Alpine Linux flavour)
