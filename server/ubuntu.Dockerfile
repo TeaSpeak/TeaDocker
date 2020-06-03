@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL varion="2.0" \
+LABEL version="2.0" \
     maintainer="ESh4d0w, Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak server running on ubuntu 18.04 (amd64_stable)"
 
@@ -39,7 +39,7 @@ VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database", "/ts
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/ts/libs/" \
     LD_PRELOAD="/ts/libs/libjemalloc.so.2" \
-    SERVER_VERSION="${SERVER_VERSION}" \
+    SERVER_VERSION="${SERVER_VERSION:-latest-$(date +%d%m%y)}" \
     TZ="Europe/Berlin"
 
 USER teaspeak

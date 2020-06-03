@@ -11,7 +11,7 @@ This repository holds all Dockerfiles and bash scripts to build the TeaSpeak Ser
     5. [View the Logs and get the Token](#view-the-logs-and-token)
     6. [Where to store data](#where-to-store-data)
 2. [Web Image](#web-image)
-    1. [Build and Run - Alpine Flavoured](#alpine-413mb-21-layers)
+    1. [Build and Run - Alpine Flavoured](#web-alpine-flavour)
     2. [Files and Volumes](#files-and-volumes)
     3. [EnvVars and Build-Args](#envvars-and-build-args-web)
     4. [Host the WebClient via `docker-compose`](#host-the-web-client-via-docker-compose)
@@ -194,9 +194,18 @@ The Docker documentation is a good starting point for understanding the differen
 
 ## Web Image
 
+[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/teaspeak/web/latest?label=Release&style=for-the-badge)](https://github.com/TeaSpeak/TeaWeb/releases)
+[![Docker Image Version (tag latest beta semver)](https://img.shields.io/docker/v/teaspeak/web/beta?label=Development&color=orange&style=for-the-badge)](https://github.com/TeaSpeak/TeaWeb/releases)
+[![Docker Pulls](https://img.shields.io/docker/pulls/teaspeak/web?style=for-the-badge)](https://hub.docker.com/r/teaspeak/web)
+[![Official Image](https://img.shields.io/badge/Dockerhub-official-blue?style=for-the-badge)](https://hub.docker.com/r/teaspeak/web)
+
 Basic instructions to build and host the TeaWeb client images yourself.
 
-### Alpine (~41.3MB, 21 Layers)
+### Web Alpine Flavour 
+
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/teaspeak/web/latest?style=for-the-badge)](https://microbadger.com/images/teaspeak/web)
+[![MicroBadger Layers](https://img.shields.io/microbadger/layers/teaspeak/web?style=for-the-badge)](https://microbadger.com/images/teaspeak/web)
+
 This image is based on the official Nginx Docker image (Alpine Linux flavour)
 ```shell script
 # Build the image with the latest web release

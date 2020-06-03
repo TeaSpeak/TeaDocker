@@ -1,7 +1,7 @@
 FROM nginx:alpine
 
 # ONYL FOR BUILD AUTOMATION USE OR IF YOU KNOW WHAT YOU ARE DONG!
-LABEL varion="1.0" \
+LABEL version="1.0" \
     maintainer="Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak WebClient running on Nginx-Alpine"
 

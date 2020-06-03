@@ -1,6 +1,6 @@
 FROM frolvlad/alpine-glibc:latest
 
-LABEL varion="1.0" \
+LABEL version="1.0" \
     maintainer="Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak server running on alpine-glibc (amd64_stable)"
 
@@ -35,7 +35,7 @@ EXPOSE 9987/tcp 9987/udp 10101/tcp 30303/tcp
 VOLUME ["/ts/logs", "/ts/certs", "/ts/config", "/ts/files", "/ts/database", "/ts/crash_dumps"]
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/ts/libs/" \
-    SERVER_VERSION="${SERVER_VERSION}" \
+    SERVER_VERSION="${SERVER_VERSION:-latest-$(date +%d%m%y)}" \
     TZ="Europe/Berlin"
 
 USER teaspeak

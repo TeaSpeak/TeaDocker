@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-LABEL varion="1.0" \
+LABEL version="1.0" \
     maintainer="Markus Hadenfeldt <docker@teaspeak.de>, h1dden-da3m0n" \
     description="A simple TeaSpeak WebClient running on Nginx-Alpine"
 
@@ -24,7 +24,7 @@ RUN apk update --no-cache && apk upgrade --no-cache \
     \
     && apk del --no-cache curl jq
 
-ENV WEB_VERSION="${WEB_VERSION}" \
+ENV WEB_VERSION="${WEB_VERSION:-latest-$(date +%d%m%y)}" \
     TZ="Europe/Berlin"
 
 VOLUME ["/etc/ssl/certs"]
