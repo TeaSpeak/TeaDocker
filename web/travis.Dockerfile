@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:mainline-alpine
 
 # ONYL FOR BUILD AUTOMATION USE OR IF YOU KNOW WHAT YOU ARE DONG!
 LABEL version="1.0" \
