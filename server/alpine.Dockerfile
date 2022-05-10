@@ -10,7 +10,7 @@ ARG SERVER_VERSION
 
 RUN	apk update --no-cache && apk upgrade --no-cache \
     && apk add --no-cache \
-        ca-certificates curl python ffmpeg tzdata \
+        ca-certificates curl python3 ffmpeg tzdata \
     \
     && mkdir -p /ts /ts/logs /ts/certs /ts/files /ts/database /ts/config /ts/crash_dumps \
     && SERVER_VERSION=${SERVER_VERSION:-$(curl -s https://repo.teaspeak.de/server/linux/amd64_stable/latest)} \
